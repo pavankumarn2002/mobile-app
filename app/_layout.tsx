@@ -1,37 +1,75 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
+import Colors from "@/constants/Colors";
+import { Link } from "expo-router";
+import { Slot, Stack } from "expo-router";
+import { Drawer } from "expo-router/drawer";
+import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
+    const DrawerContent = ({ navigation }: any) => {
+        return (
+            <View>
+                <View style={styles.sideHeader}>
+                    <Text style={styles.sideHeaderTitle}>Side Bar</Text>
+                    <Pressable
+                        onPress={() => {
+                            navigation.toggleDrawer();
+                        }}
+                    >
+                        <Text style={styles.sideHeaderTitle}>X</Text>
+                    </Pressable>
+                </View>
+                <View style={styles.sideItems}>
+                <Link style={styles.sideItem} href={"/"}>
+                        Index
+                    </Link>
+                    <Link style={styles.sideItem} href={"/profile"}>
+                        Profile
+                    </Link>
+                    <Link style={styles.sideItem} href={"/category"}>
+                        Category
+                    </Link>
+                    <Link style={styles.sideItem} href={"/bookmark"}>
+                        Book Mark
+                    </Link>
+                    <Link style={styles.sideItem} href={"/search"}>
+                        Search
+                    </Link>
+                </View>
+            </View>
+        );
+    };
+    // return (
+    //     <Stack>
+    //       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    //     </Stack>
+    // );
+    return (
+        <Drawer
+            drawerContent={DrawerContent}
+            screenOptions={{
+                headerTitle: "Popstrem",
+            }}
+        />
+    );
 }
+const styles = StyleSheet.create({
+    sideHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: 20,
+    },
+    sideHeaderTitle: {
+        fontSize: 28,
+        fontWeight: "500",
+    },
+    sideItems: {
+        padding: 20,
+    },
+    sideItem: {
+        padding: 10,
+        marginBottom: 5,
+        backgroundColor: Colors.primaryColor,
+        color: Colors.white,
+        fontSize: 28,
+        fontWeight: "500",
+    },
+});
