@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "800",
         marginTop: 10,
-        color: Colors.black,
+        color: Colors.primaryColor,
     },
     shadow: {
         padding: 5,

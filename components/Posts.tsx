@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
    },
    postTitle:{
       fontSize:24,
-      fontWeight:'700'
+      fontWeight:'700',
+      color:Colors.primaryColor
    },
    postContainer:{
     flexDirection:'column',
