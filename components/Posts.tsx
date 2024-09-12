@@ -2,23 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import Colors from '@/constants/Colors';
+import { usePosts } from '@/hooks/usePosts';
 
 export default function Posts() {
-  const [posts, setPosts] = useState<any>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/posts')
-      .then(response => {
-        setPosts(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error(error);
-        setLoading(false);
-      });
-  }, []);
-
+  const { posts, loading } = usePosts();
   if (loading) {
     return (
       <View >

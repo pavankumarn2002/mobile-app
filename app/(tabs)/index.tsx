@@ -1,34 +1,39 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Pressable } from "react-native";
-import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Pressable, Switch } from "react-native";
+import React, { useState } from "react";
 import { Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import { useHeaderHeight } from "@react-navigation/elements";
 import CategoryButtons from "@/components/CategoryButtons";
 import Posts from "@/components/Posts";
+import PhotoGallery from "@/components/PhotoGallery";
+import CarouselItem from "@/components/CarouselItem";
+import MediaQuery from "@/components/MediaQuery";
 export default function Page() {
     const headerHeight = useHeaderHeight();
+    const [isDarkMode,setIsDarkMode]=useState(false)
+    const toggleSwitch = () => setIsDarkMode(previousState => !previousState);
     return (
         <>
             <Stack.Screen
                 options={{
                     headerTransparent: true,
                     headerTitle: "",
-                    headerLeft: () => (
-                        <Pressable onPress={() => {}}>
-                            <Image source={require("./../../assets/images/transport.png")} style={{ marginTop: 15, width: 40, height: 40, borderRadius: 20 }} />
-                        </Pressable>
-                    ),
-                    headerRight: () => (
-                        <Pressable onPress={() => {}}>
-                            <Ionicons name="notifications" size={22} color={Colors.black} style={styles.shadow} />
-                        </Pressable>
-                    ),
+                    // headerLeft: () => (
+                    //     <Pressable onPress={() => {}}>
+                    //         <Image source={require("./../../assets/images/transport.png")} style={{ marginTop: 15, width: 40, height: 40, borderRadius: 20 }} />
+                    //     </Pressable>
+                    // ),
+                    // headerRight: () => (
+                    //     <Pressable onPress={() => {}}>
+                    //         <Ionicons name="notifications" size={22} color={Colors.black} style={styles.shadow} />
+                    //     </Pressable>
+                    // ),
                 }}
             />
             <ScrollView showsHorizontalScrollIndicator={false}>
-                <View style={[styles.container, { paddingTop: headerHeight }]}>
-                    <Text style={styles.headerText}>Expolre The Beautiful World</Text>
+                <View style={[styles.container]}>
+                    <Text style={styles.headerText}>Explore The Beautiful World</Text>
                     <View style={styles.searchSectionWraper}>
                         <View style={styles.searchBar}>
                             <Ionicons name="search" size={18} style={{ marginRight: 5 }} color={Colors.black} />
@@ -40,6 +45,14 @@ export default function Page() {
                     </View>
                     <CategoryButtons />
                     <Posts />
+                    <PhotoGallery/>
+                    <CarouselItem/>
+                    <MediaQuery/>
+                    <Text style={styles.headerText}>Toggle Switch</Text>
+                    <Switch 
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isDarkMode ? "#f5dd4b" : "#f4f3f4"}
+                    value={isDarkMode} onValueChange={toggleSwitch}/>
                 </View>
             </ScrollView>
         </>
